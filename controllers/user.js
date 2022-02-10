@@ -2,6 +2,8 @@ const User = require('../models/users')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+
 // Création d'un compte utilisateur avec cryptage du mdp
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -32,7 +34,7 @@ exports.login = (req, res, next) => {
                     res.status(200).json({
                         userId: user._id,
                         token: jwt.sign({ userId: user._id },
-                            'TOKEN', { expiresIn: '24h' }
+                            '${process.env.TOKEN}', { expiresIn: '24h' }
                         )
                     });
                 })
